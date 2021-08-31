@@ -3,6 +3,9 @@
 #define ENCODER_PULSE_PER_ROTATION (75*3)
 #define ENCODER_OC_OUT_PIN 2
 
+#define PWM_MOTOR_DRIVER 5
+#define DIR_MOTOR_DRIVER 4
+
 
 
 unsigned int baudrate = 115200;
@@ -15,16 +18,17 @@ unsigned long int currentMillis = 0;
 unsigned int rpm = 0;
 
 
-void updateEncoderCount(){
-  encoderCounts++;
-}
+
 
 
 
 void setup() {
-  Serial.begin(baudrate);
+  Serial.begin(115200);
   pinMode(ENCODER_OC_OUT_PIN, INPUT);
+  pinMode(PWM_MOTOR_DRIVER, OUTPUT);
+  pinMode(DIR_MOTOR_DRIVER, OUTPUT);
   attachInterrupt(digitalPinToInterrupt(ENCODER_OC_OUT_PIN), updateEncoderCount, RISING);
+  setMotor(-1,100,PWM_MOTOR_DRIVER,DIR_MOTOR_DRIVER);
 }
 
 void loop() {
@@ -44,4 +48,24 @@ void loop() {
   }
   
 
+}
+
+void setMotor(int dirValue, int pwmValue, int pwmPin, int dirPin) {
+  
+  if (dirValue == 1) {
+    digitalWrite(dirPin, LOW); // Clockwise
+    analogWrite(pwmPin, pwmValue);
+  }
+  else if (dirValue == -1) {
+    digitalWrite(dirPin, HIGH); // Counter clockwise
+    analogWrite(pwmPin, pwmValue);
+  }
+  else {
+    Serial.print("Please set dirValue either as 1 og -1");
+  }
+}
+
+
+void updateEncoderCount(){
+  encoderCounts++;
 }
