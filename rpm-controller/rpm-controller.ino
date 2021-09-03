@@ -29,13 +29,6 @@ float ePrevious = 0;
 #define K_d 0.0001
 
 // Button
-unsigned long lastTimeButtonPressed = millis();
-unsigned long debounceDelay = 100;
-
-volatile bool buttonPressed = false;
-
-bool switchChange = false;
-
 int buttonState = 0;
 int previousButtonState = 0;
 int buttonCounter = 0;
