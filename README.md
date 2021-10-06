@@ -1,2 +1,2 @@
 # rpm-controller
-A Arduino project to RPM control a DC motor with encoder
+An Arduino project to RPM control a DC motor with encoder
